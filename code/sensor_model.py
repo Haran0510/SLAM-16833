@@ -26,10 +26,10 @@ class SensorModel:
 
         self.occupancy_map = occupancy_map
 
-        self._z_hit = 1
-        self._z_short = 0.1
-        self._z_max = 0.1
-        self._z_rand = 100
+        self._z_hit = 5 #1
+        self._z_short = 0.15 #0.1
+        self._z_max = 1 #0.1
+        self._z_rand = 1000 #100
 
         self._sigma_hit = 50
         self._lambda_short = 0.1
@@ -52,9 +52,13 @@ class SensorModel:
         """
         TODO : Add your code here
         """
-
+        
         # Getting values out of the belief vector : theta is the orientation the bot is facing 
         x, y, theta = x_t1
+
+        x_laser = x + 25 * math.cos(theta)
+
+        y_laser = y + 25 * math.sin(theta)
 
         theta_in_deg = theta * 180 / math.pi
 
@@ -73,7 +77,7 @@ class SensorModel:
 
             # Calculate expected measurement
 
-            expected_zt_raycast = self.ray_casting(x, y, laser_angle_rad)
+            expected_zt_raycast = self.ray_casting(x_laser, y_laser, laser_angle_rad)
 
             # Calculating probabilities : 
 
